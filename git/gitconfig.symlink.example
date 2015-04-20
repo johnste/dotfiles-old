@@ -24,15 +24,37 @@
         editor = vim
 [apply]
         whitespace = nowarn
-[mergetool]
+[diff]
+        tool = diffmerge
+
+[merge]
+        tool = diffmerge
+
+[mergetool "diffmerge"]
+        trustExitCode = true
+        cmd = /usr/bin/diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
         keepBackup = false
-[difftool]
+
+[difftool "diffmerge"]
+        cmd = /usr/bin/diffmerge \"$LOCAL\" \"$REMOTE\"
         prompt = false
 [help]
-        autocorrect = 1
+        autocorrect = 5
 [push]
         # See `git help config` (search for push.default)
         # for more information on different options of the below setting.
         #
         # Setting to git 2.0 default to suppress warning message
         default = simple
+
+[alias]
+        co = checkout
+        ci = commit
+        st = status
+        br = branch
+        hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+        type = cat-file -t
+        dump = cat-file -p
+        lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+[core]
+        pager = `brew --prefix git`/share/git-core/contrib/diff-highlight/diff-highlight | less
