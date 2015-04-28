@@ -61,16 +61,16 @@ function grow(size) {
     var screenFrame = win.screen().frameWithoutDockOrMenu();
     size = screenFrame.width * size
 
-    if (screenFrame.x + screenFrame.width == frame.x + frame.width && frame.x != screenFrame.x) {
+    // Left
+    if (screenFrame.x == frame.x && screenFrame.x + screenFrame.width != frame.x + frame.width ) {
+        frame.width = Math.min(screenFrame.width - frame.x + size/2, frame.width + size)
+
+    // Right
+    } else {
         frame.x = Math.max(frame.x - size/2, screenFrame.x)
         frame.width = screenFrame.width - frame.x + screenFrame.x;
-
-    } else if (screenFrame.x == frame.x && screenFrame.x + screenFrame.width != frame.x + frame.width ) {
-        frame.width = Math.min(screenFrame.width - frame.x + size/2, frame.width + size)
-    } else {
-        frame.width = Math.min(screenFrame.width - frame.x + size/2, frame.width + size)
-        frame.x = Math.max(frame.x - size/2, screenFrame.x)
     }
+
     win.setFrame(frame);
 }
 
