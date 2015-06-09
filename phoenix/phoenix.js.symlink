@@ -63,7 +63,7 @@ function grow(size) {
 
     // Left
     if (screenFrame.x == frame.x && screenFrame.x + screenFrame.width != frame.x + frame.width ) {
-        frame.width = Math.min(screenFrame.width - frame.x + size/2, frame.width + size)
+        frame.width = Math.min(screenFrame.x + screenFrame.width - frame.x + size/2, frame.width + size/2);
 
     // Right
     } else {
