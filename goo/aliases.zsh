@@ -6,4 +6,4 @@ alias gfront="gooenv; cd createfrontend; grunt build serve:dev"
 alias gasync="gooenv; cd asyncher/source; ./start_asyncher.sh"
 alias gserve="gooenv; cd serve.js; grunt serve"
 
-alias gschema="cp schema_json/2.0/* ../createbackend/src/common/utils/schema_json/2.0"
+alias gschema="gooenv; cd datamodel; grunt; cp schema_json/2.0/* ../createbackend/src/common/utils/schema_json/2.0"
