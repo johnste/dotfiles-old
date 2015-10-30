@@ -1,66 +1,10 @@
 local utils = require 'utils'
 
-hs.hotkey.bind(utils.hyper, "Left", utils.getScreen(function(win, frame, screen, screenFrame)
-	local margin = 10
-	local myFrame = hs.fnutils.copy(frame)
-	myFrame.x = screenFrame.x + margin
-	myFrame.y = screenFrame.y + margin
-	myFrame.w = screenFrame.w/2 - margin*2
-	myFrame.h = screenFrame.h - margin*2
-	if utils.rectEquals(myFrame, frame) then
-		utils.throwNext(win, screen)
-	else
-		win:setFrame(myFrame)
-	end
-end))
-
-hs.hotkey.bind(utils.hyper, "Right", utils.getScreen(function(win, frame, screen, screenFrame)
-	local margin = 10
-	local myFrame = hs.fnutils.copy(frame)
-	myFrame.x = screenFrame.x + screenFrame.w/2 + margin
-	myFrame.y = screenFrame.y + margin
-	myFrame.w = screenFrame.w/2 - margin*2
-	myFrame.h = screenFrame.h - margin*2
-	if utils.rectEquals(myFrame, frame) then
-		utils.throwNext(win, screen)
-	else
-		win:setFrame(myFrame)
-	end
-end))
-
-hs.hotkey.bind(utils.hyper, "M", utils.getScreen(function(win, frame, screen, screenFrame)
-	local margin = 10
-	local myFrame = hs.fnutils.copy(frame)
-	myFrame.x = screenFrame.x + margin
-	myFrame.y = screenFrame.y + margin
-	myFrame.w = screenFrame.w - margin*2
-	myFrame.h = screenFrame.h - margin*2
-	win:setFrame(myFrame)
-end))
-
-hs.hotkey.bind(utils.hyper, "Up", utils.getScreen(function(win, frame, screen, screenFrame)
-	local middle = frame.x + frame.w/2
-	local screenMiddle = screenFrame.x + screenFrame.w/2
-	if middle < screenMiddle then
-		frame.w = frame.w + 200
-	else
-		frame.w = frame.w + 200
-		frame.x = frame.x - 200
-	end
-	win:setFrame(frame)
-end))
-
-hs.hotkey.bind(utils.hyper, "Down", utils.getScreen(function(win, frame, screen, screenFrame)
-	local middle = frame.x + frame.w/2
-	local screenMiddle = screenFrame.x + screenFrame.w/2
-	if middle < screenMiddle then
-		frame.w = frame.w - 200
-	else
-		frame.w = frame.w - 200
-		frame.x = frame.x + 200
-	end
-	win:setFrame(frame)
-end))
+hs.hotkey.bind(utils.hyper, "Left", utils.alignLeft)
+hs.hotkey.bind(utils.hyper, "Right", utils.alignRight)
+hs.hotkey.bind(utils.hyper, "M", utils.maximize)
+hs.hotkey.bind(utils.hyper, "Up", utils.grow)
+hs.hotkey.bind(utils.hyper, "Down", utils.shrink)
 
 hs.hotkey.bind(utils.hyper, "1", function()
   hs.notify.new({
@@ -79,6 +23,9 @@ hs.hotkey.bind(utils.hyper, "v",
 		local diff = hs.timer.secondsSinceEpoch() - pasteTimer
 		if diff > 0.2 then
 			hs.eventtap.keyStrokes("@example.com")
+		end
+		if diff > 0.4 then
+			hs.eventtap.keyStrokes("\t")
 		end
 	end
 )
@@ -102,9 +49,13 @@ for key, val in pairs(apps) do  -- Table iteration.
 	else
 		focusFn = utils.focusApp(val.name)
 	end
-	hs.hotkey.bind(utils.hyper, val.key, focusFn)
+	if focusFn then
+		hs.hotkey.bind(utils.hyper, val.key, focusFn)
+	end
 end
 
-
-hs.alert.show("Config loaded")
+hs.notify.new({
+  	title="Hammerspoon",
+  	informativeText="Config loaded"
+  }):send()
 hs.window.animationDuration = 0

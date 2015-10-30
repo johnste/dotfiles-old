@@ -5,33 +5,58 @@ utils.hyper = { "cmd", "alt", "shift", "ctrl" }
 function utils.getScreen(callback)
 	return function()
 		local win = hs.window.focusedWindow()
+		if not win then
+			return
+		end
+
 		local frame = win:frame()
 		local screen = win:screen()
 		local screenFrame = screen:frame()
-		if win then
-			callback(win, frame, screen, screenFrame)
+		callback(win, frame, screen, screenFrame)
+	end
+end
+
+function utils.getApplicationWindows(name, callback)
+	return function()
+		local app = hs.application.find(name)
+		local win = hs.window.focusedWindow()
+		if win and win:application() == app then
+			-- Cycle through windows instead
+			local wins = app:visibleWindows()
+			local found = false
+			local length = 0
+			for key, val in pairs(wins) do
+				length = length + 1
+			end
+
+			newWin = wins[length]
+			newWin:focus()
+		else
+			callback()
 		end
+
 	end
 end
 
 function utils.focusApp(name)
-	return function()
+	return utils.getApplicationWindows(name, function()
 		return hs.application.launchOrFocus(name)
-	end
+	end)
 end
 
 function utils.focusAppByBundleId(bundleId)
-	return function()
+	return utils.getApplicationWindows(bundleId, function()
 		return hs.application.launchOrFocusByBundleID(bundleId)
-	end
+	end)
 end
+
 
 function utils.rectEquals(frame1, frame2)
 	return (
 		frame1.x == frame2.x and
 		frame1.y == frame2.y and
-		frame1.width == frame2.width and
-		frame1.height == frame2.height
+		frame1.w == frame2.w and
+		frame1.h == frame2.h
 	)
 end
 
@@ -42,13 +67,87 @@ function utils.throwNext(win, screen)
 	end
 
 	if toScreen then
-		win:moveToScreen(toScreen)
+		win:moveToScreen(toScreen, 0.1)
 	else
 		hs.notify.new({
 			title="Hammerspoon",
 			informativeText="No screen to east or west"
 		}):send()
 	end
+end
+
+function utils.alignRight()
+	return utils.getScreen(function(win, frame, screen, screenFrame)
+		local margin = 10
+		local myFrame = hs.fnutils.copy(frame)
+		myFrame.x = screenFrame.x + screenFrame.w/2 + margin
+		myFrame.y = screenFrame.y + margin
+		myFrame.w = screenFrame.w/2 - margin*2
+		myFrame.h = screenFrame.h - margin*2
+		if utils.rectEquals(myFrame, frame) then
+			utils.throwNext(win, screen)
+			utils.alignLeft()
+		else
+			win:setFrame(myFrame)
+		end
+	end)()
+end
+
+function utils.alignLeft()
+	return utils.getScreen(function(win, frame, screen, screenFrame)
+		local margin = 10
+		local myFrame = hs.fnutils.copy(frame)
+		myFrame.x = screenFrame.x + margin
+		myFrame.y = screenFrame.y + margin
+		myFrame.w = screenFrame.w/2 - margin*2
+		myFrame.h = screenFrame.h - margin*2
+		if utils.rectEquals(myFrame, frame) then
+			utils.throwNext(win, screen)
+			utils.alignRight()
+		else
+			win:setFrame(myFrame)
+		end
+	end)()
+end
+
+function utils.maximize()
+	return utils.getScreen(function(win, frame, screen, screenFrame)
+		local margin = 10
+		local myFrame = hs.fnutils.copy(frame)
+		myFrame.x = screenFrame.x + margin
+		myFrame.y = screenFrame.y + margin
+		myFrame.w = screenFrame.w - margin*2
+		myFrame.h = screenFrame.h - margin*2
+		win:setFrame(myFrame)
+	end)()
+end
+
+function utils.grow()
+	return utils.getScreen(function(win, frame, screen, screenFrame)
+		local middle = frame.x + frame.w/2
+		local screenMiddle = screenFrame.x + screenFrame.w/2
+		if middle < screenMiddle then
+			frame.w = frame.w + 200
+		else
+			frame.w = frame.w + 200
+			frame.x = frame.x - 200
+		end
+		win:setFrame(frame)
+	end)()
+end
+
+function utils.shrink()
+	return utils.getScreen(function(win, frame, screen, screenFrame)
+		local middle = frame.x + frame.w/2
+		local screenMiddle = screenFrame.x + screenFrame.w/2
+		if middle < screenMiddle then
+			frame.w = frame.w - 200
+		else
+			frame.w = frame.w - 200
+			frame.x = frame.x + 200
+		end
+		win:setFrame(frame)
+	end)()
 end
 
 function utils.makeString(length)
