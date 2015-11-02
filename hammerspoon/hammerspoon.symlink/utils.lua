@@ -1,6 +1,7 @@
 local utils = {}
 
 utils.hyper = { "cmd", "alt", "shift", "ctrl" }
+utils.super = { "cmd", "alt", "ctrl" }
 
 function utils.getScreen(callback)
 	return function()
@@ -145,6 +146,35 @@ function utils.shrink()
 		else
 			frame.w = frame.w - 200
 			frame.x = frame.x + 200
+		end
+		win:setFrame(frame)
+	end)()
+end
+
+
+function utils.growVert()
+	return utils.getScreen(function(win, frame, screen, screenFrame)
+		local middle = frame.y + frame.h/2
+		local screenMiddle = screenFrame.y + screenFrame.h/2
+		if middle < screenMiddle then
+			frame.h = frame.h + 200
+		else
+			frame.h = frame.h + 200
+			frame.y = frame.y - 200
+		end
+		win:setFrame(frame)
+	end)()
+end
+
+function utils.shrinkVert()
+	return utils.getScreen(function(win, frame, screen, screenFrame)
+		local middle = frame.y + frame.h/2
+		local screenMiddle = screenFrame.y + screenFrame.h/2
+		if middle < screenMiddle then
+			frame.h = frame.h - 200
+		else
+			frame.h = frame.h - 200
+			frame.y = frame.y + 200
 		end
 		win:setFrame(frame)
 	end)()

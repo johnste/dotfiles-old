@@ -39,7 +39,8 @@ apps = {
 	iTerm = 		{key="D", name="iTerm"},
 	slack = 		{key="W", name="Slack"},
 	spotify = 		{key="E", name="Spotify"},
-	sublimeText = 	{key="S", name="Sublime Text"},
+	sublimeText = 	{key="R", name="Sublime Text"},
+	atom = 			{key="S", name="Atom"},
 	twitter = 		{key="Z", name="Twitter"},
 }
 for key, val in pairs(apps) do  -- Table iteration.
