@@ -1,0 +1,14 @@
+frontend:
+  title: "Frontend"
+  paths: [
+    "/Users/johnste/code/createfrontend"
+  ]
+  settings:
+      core:
+        ignoredNames: [
+          "CT"
+          "CI"
+          "E2E"
+          "bower_components"
+          "node_modules"
+        ]

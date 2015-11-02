@@ -1,0 +1,5 @@
+'.platform-darwin':
+  'ctrl-cmd-r': 'tree-view:reveal-active-file'
+
+'body':
+  'shift-cmd-w': 'pane:close-other-items'
