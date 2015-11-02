@@ -5,6 +5,7 @@
     invisibles: {}
     fontSize: 12
     backUpBeforeSaving: true
+    showInvisibles: true
   core:
     ignoredNames: [
       ".bundle"
