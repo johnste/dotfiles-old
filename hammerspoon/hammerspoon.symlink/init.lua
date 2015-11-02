@@ -1,4 +1,5 @@
 local utils = require 'utils'
+local environment = require 'environment'
 
 hs.hotkey.bind(utils.hyper, "Left", utils.alignLeft)
 hs.hotkey.bind(utils.hyper, "Right", utils.alignRight)
@@ -14,7 +15,7 @@ hs.hotkey.bind(utils.hyper, "1", function()
 end)
 
 local pasteTimer
-hs.hotkey.bind(utils.hyper, "v",
+hs.hotkey.bind(utils.hyper, "b",
 	function()
 		pasteTimer = hs.timer.secondsSinceEpoch()
 		hs.eventtap.keyStrokes(utils.makeString(10))
@@ -24,13 +25,26 @@ hs.hotkey.bind(utils.hyper, "v",
 		if diff > 0.2 then
 			hs.eventtap.keyStrokes("@example.com")
 		end
-		if diff > 0.4 then
-			hs.eventtap.keyStrokes("\t")
+	end
+)
+
+local myTimer
+hs.hotkey.bind(utils.hyper, "v",
+	function()
+		myTimer = hs.timer.secondsSinceEpoch()
+	end,
+	function()
+		local diff = hs.timer.secondsSinceEpoch() - myTimer
+		if diff < 0.3 then
+			hs.eventtap.keyStrokes(environment.email)
+		else
+			hs.eventtap.keyStrokes(environment.otherEmail)
 		end
 	end
 )
 
 apps = {
+	atom = 			{key="R", name="Atom"},
 	chrome = 		{key="A", bundleId = 'com.google.Chrome'},
 	chromeCanary = 	{key="X", bundleId = 'com.google.Chrome.canary'},
 	finder = 		{key="F", name="Finder"},
@@ -39,8 +53,7 @@ apps = {
 	iTerm = 		{key="D", name="iTerm"},
 	slack = 		{key="W", name="Slack"},
 	spotify = 		{key="E", name="Spotify"},
-	sublimeText = 	{key="R", name="Sublime Text"},
-	atom = 			{key="S", name="Atom"},
+	sublimeText = 	{key="S", name="Sublime Text"},
 	twitter = 		{key="Z", name="Twitter"},
 }
 for key, val in pairs(apps) do  -- Table iteration.

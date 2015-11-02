@@ -4,5 +4,5 @@ atom.symlink/compile-cache/
 atom.symlink/packages
 atom.symlink/storage
 atom.symlink/themes
-
+hammerspoon/hammerspoon.symlink/environment.lua
 git/gitconfig.symlink
