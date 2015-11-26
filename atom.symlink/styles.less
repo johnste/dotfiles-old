@@ -1,0 +1,32 @@
+@myColor: rgb(55, 39, 37);
+
+.theme-one-dark-ui {
+  .tab-bar .tab {
+    &::before {
+      background: lighten(@myColor, 0%);
+    }
+
+    &.active {
+      background-color: @myColor;
+      .title {
+        background-color: @myColor;
+      }
+
+      &::after {
+        border-bottom-color: lighten(@myColor, 15%);
+      }
+    }
+  }
+
+  .build-timer {
+    display: none;
+  }
+
+  .build .output {
+    font-size: 70%;
+  }
+
+  div.output.panel-body {
+    height: 250px !important;
+  }
+}

@@ -8,6 +8,8 @@ export ZSH=$HOME/.dotfiles
 
 # Set OS X defaults
 $ZSH/osx/set-defaults.sh
+$ZSH/osx/seil.sh
+$ZSH/osx/karabiner.sh
 
 # Upgrade homebrew
 brew update

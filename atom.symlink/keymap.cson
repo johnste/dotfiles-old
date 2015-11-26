@@ -3,3 +3,17 @@
 
 'body':
   'shift-cmd-w': 'pane:close-other-items'
+
+'.platform-darwin atom-workspace, .platform-darwin atom-text-editor':
+  'cmd-b': 'build:trigger'
+
+'body .native-key-bindings':
+  'ctrl-right' : 'subword-navigation:move-right'
+  'ctrl-left' : 'subword-navigation:move-left'
+  'ctrl-shift-right' : 'subword-navigation:select-right'
+  'ctrl-shift-left' : 'subword-navigation:select-left'
+  'ctrl-delete' : 'subword-navigation:delete-right'
+  'ctrl-backspace' : 'subword-navigation:delete-left'
+
+#'.platform-darwin atom-text-editor':
+#  'ctrl-nope': 'bracket-matcher:remove-matching-brackets'

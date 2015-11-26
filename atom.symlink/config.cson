@@ -3,9 +3,9 @@
     showIndentGuide: true
     fontFamily: "Menlo"
     invisibles: {}
-    fontSize: 12
     backUpBeforeSaving: true
-    showInvisibles: true
+    preferredLineLength: 110
+    fontSize: 12
   core:
     ignoredNames: [
       ".bundle"
@@ -14,16 +14,18 @@
       "repositories"
       "tmp"
       "vendor"
-      ".*"
       "CT"
       "CI"
       "E2E"
       "bower_components"
       "node_modules"
+      ".npmrc"
+      ".DS_Store"
+      "jspm_packages"
     ]
     themes: [
-      "unity-ui"
-      "glacier-syntax"
+      "one-dark-ui"
+      "birds-of-paradise-theme"
     ]
     hideGitIgnoredFiles: true
     disabledPackages: [
@@ -32,6 +34,7 @@
       "metrics"
       "about"
       "line-ending-selector"
+      "mate-subword-navigation"
     ]
     projectHome: "/Users/johnste/code"
   "spell-check":
@@ -49,9 +52,26 @@
   "project-manager": {}
   "tree-view":
     hideIgnoredNames: true
-    hideVcsIgnoredFiles: true
   tabs:
     usePreviewTabs: true
   minimap:
     plugins:
       "highlight-selected": true
+  "find-and-replace":
+    scrollToResultOnLiveSearch: true
+  jshint:
+    supportLintingJsx: true
+    onlyConfig: true
+  "linter-eslint":
+    showRuleIdInMessage: false
+    disableWhenNoEslintrcFileInPath: true
+  linter:
+    showErrorPanel: false
+  "one-dark-ui": {}
+  date: {}
+  "atom-beautify":
+    _analyticsUserId: "b6ae3407-dd91-466c-b386-0fe3330d5ec8"
+  build:
+    scrollOnError: true
+    saveOnBuild: true
+    stealFocus: false

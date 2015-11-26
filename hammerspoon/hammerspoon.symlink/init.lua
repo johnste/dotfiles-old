@@ -43,8 +43,20 @@ hs.hotkey.bind(utils.hyper, "v",
 	end
 )
 
+hs.hotkey.bind(utils.hyper, "[", function()
+	hs.eventtap.keyStrokes("å")
+end)
+
+hs.hotkey.bind(utils.hyper, "'", function()
+	hs.eventtap.keyStrokes("ä")
+end)
+
+hs.hotkey.bind(utils.hyper, ";", function()
+	hs.eventtap.keyStrokes("ö")
+end)
+
 apps = {
-	atom = 			{key="R", name="Atom"},
+	atom = 			{key="S", name="Atom"},
 	chrome = 		{key="A", bundleId = 'com.google.Chrome'},
 	chromeCanary = 	{key="X", bundleId = 'com.google.Chrome.canary'},
 	finder = 		{key="F", name="Finder"},
@@ -53,7 +65,7 @@ apps = {
 	iTerm = 		{key="D", name="iTerm"},
 	slack = 		{key="W", name="Slack"},
 	spotify = 		{key="E", name="Spotify"},
-	sublimeText = 	{key="S", name="Sublime Text"},
+	sublimeText = 	{key="R", name="Sublime Text"},
 	twitter = 		{key="Z", name="Twitter"},
 }
 for key, val in pairs(apps) do  -- Table iteration.
