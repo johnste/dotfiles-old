@@ -1,14 +1,17 @@
-frontend:
-  title: "Frontend"
+"widget-navbar-ui":
+  title: "Widget Navbar"
   paths: [
-    "/Users/johnste/code/createfrontend"
+    "/Users/jsterling/code/widget-navbar-ui"
   ]
   settings:
-      core:
-        ignoredNames: [
-          "CT"
-          "CI"
-          "E2E"
-          "bower_components"
-          "node_modules"
-        ]
+    core:
+      ignoredNames: [
+        ".DS_Store"
+        ".npmrc"
+        "jspm_packages"
+      ]
+"node-standard-service":
+  title: "node-standard-service"
+  paths: [
+    "/Users/jsterling/code/node-standard-service"
+  ]
