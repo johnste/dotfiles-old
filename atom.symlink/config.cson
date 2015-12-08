@@ -35,8 +35,12 @@
       "about"
       "line-ending-selector"
       "mate-subword-navigation"
+      "tree-view-open-files"
     ]
     projectHome: "/Users/johnste/code"
+    packagesWithKeymapsDisabled: [
+      "bracket-matcher"
+    ]
   "spell-check":
     grammars: [
       "text.plain"
@@ -65,13 +69,14 @@
   "linter-eslint":
     showRuleIdInMessage: false
     disableWhenNoEslintrcFileInPath: true
-  linter:
-    showErrorPanel: false
+  linter: {}
   "one-dark-ui": {}
   date: {}
   "atom-beautify":
     _analyticsUserId: "b6ae3407-dd91-466c-b386-0fe3330d5ec8"
+    js_indent_size: 4
   build:
     scrollOnError: true
     saveOnBuild: true
     stealFocus: false
+  "scala-worksheet-plus": {}

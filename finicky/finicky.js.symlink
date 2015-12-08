@@ -23,7 +23,7 @@
 
   // Open work stuff in Canary
   finicky.onUrl(function(url, opts) {
-    if (url.match(/^https?:\/\/(bitbucket\.org|trello\.com|build\.gooengine\.com|([a-z]+)?.google\.com)/)) {
+    if (url.match(/^https?:\/\/(bitbucket\.org|.*ooyala.*|.*videoplaza.*|.*karbon.*|trello\.com|build\.gooengine\.com|([a-z]+)?.google\.com)/)) {
       return {
         bundleIdentifier: browser.chromeCanary
       };
@@ -58,29 +58,5 @@
         bundleIdentifier: browser.spotify
       };
     }
-  });
-
-  // Open Twitter links in client
-  finicky.onUrl(function(url, opts) {
-    return;
-    var matches = url.match(/^https?:\/\/twitter\.com\/.+\/status\/([0-9]+)/);
-    if (matches && matches[1]) {
-      var statusId = matches[1];
-      return {
-        url: 'twitter://status?id=' + statusId,
-        bundleIdentifier: browser.twitter
-      };
-    }
-  });
-
-  // Rewrite all Bing links to DuckDuckGo instead
-  finicky.onUrl(function(url, opts) {
-    var bing = /^https?:\/\/www\.bing\.com\/search/;
-    if (url.match(bing)) {
-        var newUrl = url.replace(bing, 'https://duckduckgo.com');
-        return {
-          url: newUrl
-        };
-      }
   });
 }());

@@ -15,3 +15,15 @@
   paths: [
     "/Users/jsterling/code/node-standard-service"
   ]
+"marketplace-ui-service":
+  title: "marketplace-ui-service"
+  paths: [
+    "/Users/jsterling/code/marketplace-ui-service"
+  ]
+  settings:
+    core:
+      ignoredNames: [
+        ".DS_Store"
+        ".npmrc"
+        "jspm_packages"
+      ]
