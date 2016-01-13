@@ -81,9 +81,9 @@ function utils.alignRight()
 	return utils.getScreen(function(win, frame, screen, screenFrame)
 		local margin = 10
 		local myFrame = hs.fnutils.copy(frame)
-		myFrame.x = screenFrame.x + screenFrame.w/2 + margin
+		myFrame.x = screenFrame.x + screenFrame.w/2 + margin / 2
 		myFrame.y = screenFrame.y + margin
-		myFrame.w = screenFrame.w/2 - margin*2
+		myFrame.w = screenFrame.w/2 - margin*2 + margin/2
 		myFrame.h = screenFrame.h - margin*2
 		if utils.rectEquals(myFrame, frame) then
 			utils.throwNext(win, screen)
@@ -100,7 +100,7 @@ function utils.alignLeft()
 		local myFrame = hs.fnutils.copy(frame)
 		myFrame.x = screenFrame.x + margin
 		myFrame.y = screenFrame.y + margin
-		myFrame.w = screenFrame.w/2 - margin*2
+		myFrame.w = screenFrame.w/2 - margin*2 + margin/2
 		myFrame.h = screenFrame.h - margin*2
 		if utils.rectEquals(myFrame, frame) then
 			utils.throwNext(win, screen)

@@ -1,11 +1,11 @@
 "*":
   editor:
-    showIndentGuide: true
     fontFamily: "Menlo"
     invisibles: {}
     backUpBeforeSaving: true
     preferredLineLength: 110
     fontSize: 12
+    showIndentGuide: true
   core:
     ignoredNames: [
       ".bundle"
@@ -22,6 +22,17 @@
       ".npmrc"
       ".DS_Store"
       "jspm_packages"
+      ".dockerignore"
+      ".npmignore"
+      ".gitignore"
+      "dist"
+      ".eslintrc"
+      "karma.conf.js"
+      "package.json"
+      "gulpfile.js"
+      "Dockerfile"
+      "config.js"
+      "gulp"
     ]
     themes: [
       "one-dark-ui"
@@ -36,6 +47,7 @@
       "line-ending-selector"
       "mate-subword-navigation"
       "tree-view-open-files"
+      "api-workbench"
     ]
     projectHome: "/Users/johnste/code"
     packagesWithKeymapsDisabled: [
@@ -55,6 +67,7 @@
   "autocomplete-plus": {}
   "project-manager": {}
   "tree-view":
+    hideVcsIgnoredFiles: true
     hideIgnoredNames: true
   tabs:
     usePreviewTabs: true
@@ -80,3 +93,21 @@
     saveOnBuild: true
     stealFocus: false
   "scala-worksheet-plus": {}
+  "api-workbench": {}
+  "bracket-matcher":
+    autocompleteBrackets: false
+".attribute-values.js.jsx.source":
+  editor:
+    preferredLineLength: 110
+".js.jsx.react.source":
+  editor:
+    preferredLineLength: 110
+".js.jsx.source":
+  editor:
+    preferredLineLength: 110
+".js.source.subtlegradient":
+  editor:
+    preferredLineLength: 110
+".raml.source":
+  editor:
+    preferredLineLength: 110

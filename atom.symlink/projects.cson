@@ -18,12 +18,10 @@
 "marketplace-ui-service":
   title: "marketplace-ui-service"
   paths: [
-    "/Users/jsterling/code/marketplace-ui-service"
+    "/Users/jsterling/code/marketplace-ui-service/src"
   ]
   settings:
     core:
       ignoredNames: [
         ".DS_Store"
-        ".npmrc"
-        "jspm_packages"
       ]
