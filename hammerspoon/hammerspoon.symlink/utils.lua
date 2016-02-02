@@ -61,10 +61,23 @@ function utils.rectEquals(frame1, frame2)
 	)
 end
 
-function utils.throwNext(win, screen)
-	local toScreen = screen:toEast()
+function utils.throwNext(win, screen, direction)
+	local toScreen = screen:next()
+	if direction then
+		toScreen = screen:previous()
+	end
+
+	if not toScreen then
+		toScreen = screen:toEast()
+	end
 	if not toScreen then
 		toScreen = screen:toWest()
+	end
+	if not toScreen then
+		toScreen = screen:toNorth()
+	end
+	if not toScreen then
+		toScreen = screen:toSouth()
 	end
 
 	if toScreen then
@@ -103,7 +116,7 @@ function utils.alignLeft()
 		myFrame.w = screenFrame.w/2 - margin*2 + margin/2
 		myFrame.h = screenFrame.h - margin*2
 		if utils.rectEquals(myFrame, frame) then
-			utils.throwNext(win, screen)
+			utils.throwNext(win, screen, true)
 			utils.alignRight()
 		else
 			win:setFrame(myFrame)

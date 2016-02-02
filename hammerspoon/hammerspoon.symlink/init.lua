@@ -56,17 +56,18 @@ hs.hotkey.bind(utils.hyper, ";", function()
 end)
 
 apps = {
-	atom = 			{key="S", name="Atom"},
+	atom = 			{key="R", name="Atom"},
 	chrome = 		{key="A", bundleId = 'com.google.Chrome'},
 	chromeCanary = 	{key="X", bundleId = 'com.google.Chrome.canary'},
 	finder = 		{key="F", name="Finder"},
 	helium = 		{key="H", name="Helium"},
-	hipchat = 		{key="Q", name="HipChat"},
+	webstorm = 		{key="W", name="WebStorm"},
 	iTerm = 		{key="D", name="iTerm"},
-	slack = 		{key="W", name="Slack"},
+	slack = 		{key="Q", name="Slack"},
 	spotify = 		{key="E", name="Spotify"},
-	sublimeText = 	{key="R", name="Sublime Text"},
+	sublimeText = 	{key="S", name="Sublime Text"},
 	twitter = 		{key="Z", name="Twitter"},
+	zeplin = 		{key="C", name="Zeplin"},
 }
 for key, val in pairs(apps) do  -- Table iteration.
 	local focusFn
