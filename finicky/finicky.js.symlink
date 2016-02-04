@@ -20,35 +20,25 @@
     }
   });
 
+  // Open social network links in Google Chrome
+  finicky.onUrl(function(url, opts) {
+    if (url.match(/^https?:\/\/(facebook|twitter|linkedin|keep\.google)\.com/)) {
+      return {
+        bundleIdentifier: browser.chrome
+      };
+    }
+  });
 
   // Open work stuff in Canary
   finicky.onUrl(function(url, opts) {
-    if (url.match(/^https?:\/\/(bitbucket\.org|.*ooyala.*|.*videoplaza.*|.*karbon.*|trello\.com|build\.gooengine\.com|([a-z]+)?.google\.com)/)) {
+    if (url.match(/^https?:\/\/(localhost|bitbucket\.org|.*ooyala.*|.*videoplaza.*|.*karbon.*|trello\.com|build\.gooengine\.com|([a-z]+)?.google\.com)/)) {
       return {
         bundleIdentifier: browser.chromeCanary
       };
     }
   });
 
-  // Open video in Helium
-  finicky.onUrl(function(url, opts) {
-    if (url.match(/^https?:\/\/(www\.)?(youtube)\.com\/(embed|watch)/)) {
-      return {
-        //bundleIdentifier: browser.helium
-      };
-    }
-  });
 
-
-
-  // Open social network links in Google Chrome
-  finicky.onUrl(function(url, opts) {
-    if (url.match(/^https?:\/\/(facebook|twitter|linkedin)\.com/)) {
-      return {
-        bundleIdentifier: browser.chrome
-      };
-    }
-  });
 
 
   // Open Spotify links in client

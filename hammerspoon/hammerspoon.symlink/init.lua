@@ -56,7 +56,7 @@ hs.hotkey.bind(utils.hyper, ";", function()
 end)
 
 apps = {
-	atom = 			{key="R", name="Atom"},
+	-- atom = 			{key="R", name="Atom"},
 	chrome = 		{key="A", bundleId = 'com.google.Chrome'},
 	chromeCanary = 	{key="X", bundleId = 'com.google.Chrome.canary'},
 	finder = 		{key="F", name="Finder"},

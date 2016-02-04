@@ -1,44 +1,16 @@
 "*":
-  editor:
-    fontFamily: "Menlo"
-    invisibles: {}
-    backUpBeforeSaving: true
-    preferredLineLength: 110
-    fontSize: 12
-    showIndentGuide: true
+  "api-workbench": {}
+  "atom-beautify":
+    _analyticsUserId: "b6ae3407-dd91-466c-b386-0fe3330d5ec8"
+    js_indent_size: 4
+  "autocomplete-plus": {}
+  "bracket-matcher":
+    autocompleteBrackets: false
+  build:
+    saveOnBuild: true
+    scrollOnError: true
+    stealFocus: false
   core:
-    ignoredNames: [
-      ".bundle"
-      ".git"
-      "log"
-      "repositories"
-      "tmp"
-      "vendor"
-      "CT"
-      "CI"
-      "E2E"
-      "bower_components"
-      "node_modules"
-      ".npmrc"
-      ".DS_Store"
-      "jspm_packages"
-      ".dockerignore"
-      ".npmignore"
-      ".gitignore"
-      "dist"
-      ".eslintrc"
-      "karma.conf.js"
-      "package.json"
-      "gulpfile.js"
-      "Dockerfile"
-      "config.js"
-      "gulp"
-    ]
-    themes: [
-      "one-dark-ui"
-      "birds-of-paradise-theme"
-    ]
-    hideGitIgnoredFiles: true
     disabledPackages: [
       "background-tips"
       "exception-reporting"
@@ -49,53 +21,66 @@
       "tree-view-open-files"
       "api-workbench"
     ]
-    projectHome: "/Users/johnste/code"
+    hideGitIgnoredFiles: true
+    ignoredNames: [
+      ".bundle"
+      ".git"
+      "log"
+      "repositories"
+      "tmp"
+      "vendor"
+      "CT"
+      "CI"
+      "E2E"
+      ".DS_Store"
+    ]
     packagesWithKeymapsDisabled: [
       "bracket-matcher"
     ]
+    projectHome: "/Users/johnste/code"
+    themes: [
+      "one-dark-ui"
+      "birds-of-paradise-theme"
+    ]
+  date: {}
+  editor:
+    backUpBeforeSaving: true
+    fontFamily: "Menlo"
+    fontSize: 12
+    invisibles: {}
+    preferredLineLength: 110
+    showIndentGuide: true
+  "find-and-replace":
+    scrollToResultOnLiveSearch: true
+  "fuzzy-finder": {}
+  jshint:
+    onlyConfig: true
+    supportLintingJsx: true
+  linter: {}
+  "linter-eslint":
+    disableWhenNoEslintrcFileInPath: true
+    showRuleIdInMessage: false
+  minimap:
+    plugins:
+      "highlight-selected": true
+  "one-dark-ui": {}
+  "project-manager": {}
+  "release-notes":
+    viewedVersion: "0.89.0"
+  "scala-worksheet-plus": {}
   "spell-check":
     grammars: [
       "text.plain"
       "source.gfm"
       "text.git-commit"
     ]
-  welcome:
-    showOnStartup: false
-  "release-notes":
-    viewedVersion: "0.89.0"
-  "fuzzy-finder": {}
-  "autocomplete-plus": {}
-  "project-manager": {}
-  "tree-view":
-    hideVcsIgnoredFiles: true
-    hideIgnoredNames: true
   tabs:
     usePreviewTabs: true
-  minimap:
-    plugins:
-      "highlight-selected": true
-  "find-and-replace":
-    scrollToResultOnLiveSearch: true
-  jshint:
-    supportLintingJsx: true
-    onlyConfig: true
-  "linter-eslint":
-    showRuleIdInMessage: false
-    disableWhenNoEslintrcFileInPath: true
-  linter: {}
-  "one-dark-ui": {}
-  date: {}
-  "atom-beautify":
-    _analyticsUserId: "b6ae3407-dd91-466c-b386-0fe3330d5ec8"
-    js_indent_size: 4
-  build:
-    scrollOnError: true
-    saveOnBuild: true
-    stealFocus: false
-  "scala-worksheet-plus": {}
-  "api-workbench": {}
-  "bracket-matcher":
-    autocompleteBrackets: false
+  "tree-view":
+    hideIgnoredNames: true
+    hideVcsIgnoredFiles: true
+  welcome:
+    showOnStartup: false
 ".attribute-values.js.jsx.source":
   editor:
     preferredLineLength: 110
