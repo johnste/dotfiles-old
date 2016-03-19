@@ -39,3 +39,7 @@ do
 done
 
 unset config_files
+
+eval "$(rbenv init -)"
+
+eval "$(thefuck --alias)"

@@ -14,51 +14,57 @@ hs.hotkey.bind(utils.hyper, "1", function()
   }):send()
 end)
 
-local pasteTimer
-hs.hotkey.bind(utils.hyper, "b",
-	function()
-		pasteTimer = hs.timer.secondsSinceEpoch()
-		hs.eventtap.keyStrokes(utils.makeString(10))
-	end,
-	function()
-		local diff = hs.timer.secondsSinceEpoch() - pasteTimer
-		if diff > 0.2 then
-			hs.eventtap.keyStrokes("@example.com")
-		end
-	end
-)
+-- local pasteTimer
+-- hs.hotkey.bind(utils.hyper, "b",
+-- 	function()
+-- 		pasteTimer = hs.timer.secondsSinceEpoch()
+-- 		hs.eventtap.keyStrokes(utils.makeString(10))
+-- 	end,
+-- 	function()
+-- 		local diff = hs.timer.secondsSinceEpoch() - pasteTimer
+-- 		if diff > 0.2 then
+-- 			hs.eventtap.keyStrokes("@example.com")
+-- 		end
+-- 	end
+-- )
 
-local myTimer
 hs.hotkey.bind(utils.hyper, "v",
 	function()
-		myTimer = hs.timer.secondsSinceEpoch()
-	end,
-	function()
-		local diff = hs.timer.secondsSinceEpoch() - myTimer
-		if diff < 0.3 then
-			hs.eventtap.keyStrokes(environment.email)
-		else
-			hs.eventtap.keyStrokes(environment.otherEmail)
-		end
+		local contents = hs.pasteboard.getContents()
+		hs.pasteboard.setContents(environment.otherEmail)
+		hs.timer.doAfter(0.2, function()
+			hs.eventtap.keyStroke({"cmd"},"v")
+			hs.timer.doAfter(0.2, function()
+				hs.pasteboard.setContents(contents)
+			end)
+			hs.eventtap.keyStrokes("\t")
+		end)
+
 	end
 )
 
-hs.hotkey.bind(utils.hyper, "[", function()
-	hs.eventtap.keyStrokes("å")
+local secret
+hs.hotkey.bind(utils.hyper, "b", function()
+	secret = hs.pasteboard.getContents()
 end)
 
-hs.hotkey.bind(utils.hyper, "'", function()
-	hs.eventtap.keyStrokes("ä")
-end)
-
-hs.hotkey.bind(utils.hyper, ";", function()
-	hs.eventtap.keyStrokes("ö")
-end)
+hs.hotkey.bind(utils.hyper, "n",
+	function()
+		local contents = hs.pasteboard.getContents()
+		hs.pasteboard.setContents(secret)
+		hs.timer.doAfter(0.2, function()
+			hs.eventtap.keyStroke({"cmd"},"v")
+			hs.timer.doAfter(0.2, function()
+				hs.pasteboard.setContents(contents)
+			end)
+		end)
+	end
+)
 
 apps = {
-	-- atom = 			{key="R", name="Atom"},
 	chrome = 		{key="A", bundleId = 'com.google.Chrome'},
 	chromeCanary = 	{key="X", bundleId = 'com.google.Chrome.canary'},
+	discord = 		{key="R", name="Discord"},
 	finder = 		{key="F", name="Finder"},
 	helium = 		{key="H", name="Helium"},
 	webstorm = 		{key="W", name="WebStorm"},

@@ -3,6 +3,8 @@ local utils = {}
 utils.hyper = { "cmd", "alt", "shift", "ctrl" }
 utils.super = { "cmd", "alt", "ctrl" }
 
+local margin = 2
+
 function utils.getScreen(callback)
 	return function()
 		local win = hs.window.focusedWindow()
@@ -52,19 +54,23 @@ function utils.focusAppByBundleId(bundleId)
 end
 
 
-function utils.rectEquals(frame1, frame2)
-	return (
-		frame1.x == frame2.x and
-		frame1.y == frame2.y and
-		frame1.w == frame2.w and
-		frame1.h == frame2.h
-	)
+function utils.rectEquals(frame1, frame2, side)
+	if (side) then
+		return (frame1.x == frame2.x and frame1.y + frame1.h == frame2.y + frame2.h)
+	else
+		local x1 = frame1.x
+		local x2 = frame2.x
+		local h1 = frame1.y + frame1.h
+		local h2 = frame2.y + frame2.h
+		return (x1 == x2 and h1 == h2)
+	end
+
 end
 
 function utils.throwNext(win, screen, direction)
-	local toScreen = screen:next()
+	local toScreen = screen:previous()
 	if direction then
-		toScreen = screen:previous()
+		toScreen = screen:next()
 	end
 
 	if not toScreen then
@@ -92,13 +98,12 @@ end
 
 function utils.alignRight()
 	return utils.getScreen(function(win, frame, screen, screenFrame)
-		local margin = 10
 		local myFrame = hs.fnutils.copy(frame)
 		myFrame.x = screenFrame.x + screenFrame.w/2 + margin / 2
 		myFrame.y = screenFrame.y + margin
 		myFrame.w = screenFrame.w/2 - margin*2 + margin/2
 		myFrame.h = screenFrame.h - margin*2
-		if utils.rectEquals(myFrame, frame) then
+		if utils.rectEquals(myFrame, frame, false) then
 			utils.throwNext(win, screen)
 			utils.alignLeft()
 		else
@@ -109,13 +114,12 @@ end
 
 function utils.alignLeft()
 	return utils.getScreen(function(win, frame, screen, screenFrame)
-		local margin = 10
 		local myFrame = hs.fnutils.copy(frame)
 		myFrame.x = screenFrame.x + margin
 		myFrame.y = screenFrame.y + margin
 		myFrame.w = screenFrame.w/2 - margin*2 + margin/2
 		myFrame.h = screenFrame.h - margin*2
-		if utils.rectEquals(myFrame, frame) then
+		if utils.rectEquals(myFrame, frame, true) then
 			utils.throwNext(win, screen, true)
 			utils.alignRight()
 		else
@@ -126,13 +130,7 @@ end
 
 function utils.maximize()
 	return utils.getScreen(function(win, frame, screen, screenFrame)
-		local margin = 10
-		local myFrame = hs.fnutils.copy(frame)
-		myFrame.x = screenFrame.x + margin
-		myFrame.y = screenFrame.y + margin
-		myFrame.w = screenFrame.w - margin*2
-		myFrame.h = screenFrame.h - margin*2
-		win:setFrame(myFrame)
+		win:maximize(0)
 	end)()
 end
 
