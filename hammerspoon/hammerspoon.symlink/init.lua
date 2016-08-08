@@ -62,11 +62,11 @@ hs.hotkey.bind(utils.hyper, "n",
 )
 
 apps = {
-	chrome = 		{key="A", bundleId = 'com.google.Chrome'},
+	chrome = 		{key="A", bundleId = 'com.google.Chrome', confirm = true},
 	chromeCanary = 	{key="X", bundleId = 'com.google.Chrome.canary'},
 	discord = 		{key="R", name="Discord"},
 	finder = 		{key="F", name="Finder"},
-	helium = 		{key="H", name="Helium"},
+	helium = 		{key="G", name="Helium"},
 	webstorm = 		{key="W", name="WebStorm"},
 	iTerm = 		{key="D", name="iTerm"},
 	slack = 		{key="Q", name="Slack"},
@@ -74,17 +74,34 @@ apps = {
 	sublimeText = 	{key="S", name="Sublime Text"},
 	twitter = 		{key="Z", name="Twitter"},
 	zeplin = 		{key="C", name="Zeplin"},
+	keePassX = 		{key="P", name="KeePassX"},
 }
+
 for key, val in pairs(apps) do  -- Table iteration.
 	local focusFn
+
 	if val.bundleId then
 		focusFn = utils.focusAppByBundleId(val.bundleId)
 	else
 		focusFn = utils.focusApp(val.name)
 	end
+
+	-- if (val.confirm) then
+	-- 	focusFn = function()
+	-- 		local time = hs.timer.localTime()
+	-- 		if (time >= 34200 and time <= 61200) then
+	-- 			hs.alert(tostring(math.floor((61200 - hs.timer.localTime())/60)))
+	-- 			focusFn()
+	-- 		else
+	-- 			focusFn()
+	-- 		end
+	-- 	end
+	-- end
+
 	if focusFn then
 		hs.hotkey.bind(utils.hyper, val.key, focusFn)
 	end
+
 end
 
 hs.notify.new({
