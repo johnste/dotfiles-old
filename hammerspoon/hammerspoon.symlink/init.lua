@@ -62,7 +62,7 @@ hs.hotkey.bind(utils.hyper, "n",
 )
 
 apps = {
-	chrome = 		{key="A", bundleId = 'com.google.Chrome', confirm = true},
+	chrome = 		{key="A", bundleId = 'com.google.Chrome', confirm = true, lastConfirmed = 0},
 	chromeCanary = 	{key="X", bundleId = 'com.google.Chrome.canary'},
 	discord = 		{key="R", name="Discord"},
 	finder = 		{key="F", name="Finder"},
@@ -86,17 +86,16 @@ for key, val in pairs(apps) do  -- Table iteration.
 		focusFn = utils.focusApp(val.name)
 	end
 
-	-- if (val.confirm) then
-	-- 	focusFn = function()
-	-- 		local time = hs.timer.localTime()
-	-- 		if (time >= 34200 and time <= 61200) then
-	-- 			hs.alert(tostring(math.floor((61200 - hs.timer.localTime())/60)))
-	-- 			focusFn()
-	-- 		else
-	-- 			focusFn()
-	-- 		end
-	-- 	end
-	-- end
+	if (val.confirm) then
+		oldFocusFn = focusFn
+		focusFn = function()
+			local now = hs.timer.secondsSinceEpoch()
+			if (val.lastConfirmed + 1 > now) then
+				oldFocusFn()
+			end
+			val.lastConfirmed = now
+		end
+	end
 
 	if focusFn then
 		hs.hotkey.bind(utils.hyper, val.key, focusFn)
