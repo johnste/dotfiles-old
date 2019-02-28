@@ -1,37 +1,53 @@
-(function () {
-	"use strict";
+var browser = {
+helium: 'com.JadenGeller.Helium',
+chrome: 'com.google.Chrome',
+chromeCanary: 'com.google.Chrome.canary',
+spotify: 'com.spotify.client',
+twitter: 'com.twitter.twitter-mac',
+safari: 'com.apple.Safari'
+};
 
-  var browser = {
-    helium: 'com.JadenGeller.Helium',
-    chrome: 'com.google.Chrome',
-    chromeCanary: 'com.google.Chrome.canary',
-    spotify: 'com.spotify.client',
-    twitter: 'com.twitter.twitter-mac'
-  };
+if (typeof module !== 'undefined') {
 
-  finicky.setDefaultBrowser(browser.chrome);
+	module.exports = {
+
+	  defaultBrowser: "com.google.Chrome",
+	  handlers: [
+      {
+        match: /https:\/\/google.com/,
+        value: "Safari"
+      },
+      {
+        match: /https:\/\/example1.com/,
+        value: {
+          value: "Safari",
+          url: "http://example2.net",
+        }
+      }
+	  ]
+	}
+} else {
+	finicky.setDefaultBrowser(browser.chrome);
 
   finicky.onUrl(function(url, opts) {
-    if (opts.flags.alt) {
-      finicky.log("Wat");
-      return {
-        openInBackground: true
-      };
-    }
-  });
-
-  // Open social network links in Google Chrome
-  finicky.onUrl(function(url, opts) {
-    if (url.match(/^https?:\/\/(facebook|twitter|linkedin|keep\.google)\.com/)) {
-      return {
-        bundleIdentifier: browser.chrome
-      };
-    }
-  });
+	  if (url.match(/^https?:\/\/(youtube|facebook|twitter|linkedin|keep\.google)\.com/)) {
+	    return {
+	      bundleIdentifier: browser.chrome
+	    };
+	  }
+	});
 
   // Open work stuff in Canary
   finicky.onUrl(function(url, opts) {
-    if (url.match(/^https?:\/\/(localhost|bitbucket\.org|.*ooyala.*|.*videoplaza.*|.*karbon.*|trello\.com|build\.gooengine\.com|([a-z]+)?.google\.com)/)) {
+    if (url.match(/^https?:\/\/(.*unomaly.*|([a-z]+)?.google\.com)/)) {
+      return {
+        bundleIdentifier: browser.chromeCanary
+      };
+    }
+  });
+
+  finicky.onUrl(function(url, opts) {
+    if (url.match(/lcov-report/)) {
       return {
         bundleIdentifier: browser.chromeCanary
       };
@@ -39,6 +55,13 @@
   });
 
 
+  finicky.onUrl(function(url, opts) {
+    if (url.match(/127.0.0.1:8080/)) {
+      return {
+        bundleIdentifier: browser.chromeCanary
+      };
+    }
+  });
 
 
   // Open Spotify links in client
@@ -49,4 +72,4 @@
       };
     }
   });
-}());
+}

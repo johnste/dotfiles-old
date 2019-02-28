@@ -1,110 +1,196 @@
-local utils = require 'utils'
-local environment = require 'environment'
+utils = require './utils/windows'
+require './utils/utils'
 
-hs.hotkey.bind(utils.hyper, "Left", utils.alignLeft)
-hs.hotkey.bind(utils.hyper, "Right", utils.alignRight)
-hs.hotkey.bind(utils.hyper, "M", utils.maximize)
-hs.hotkey.bind(utils.hyper, "Up", utils.grow)
-hs.hotkey.bind(utils.hyper, "Down", utils.shrink)
+-- print(os.date("*t"))
+function vacationMode()
+    local on = os.date("*t").hour > 17 or os.date("*t").hour < 8
+    local helg = os.date("*t").wday == 1 or os.date("*t").wday == 7
+    return on or helg
+end
 
-hs.hotkey.bind(utils.hyper, "1", function()
-  hs.notify.new({
-  	title="Spotify",
-  	informativeText=hs.spotify.getCurrentArtist() .. " - \"" .. hs.spotify.getCurrentTrack() .. "\""
-  }):send()
-end)
+function jobMode()
+    local on = os.date("*t").hour < 17 and os.date("*t").hour > 8
+    local helg = os.date("*t").wday == 1 or os.date("*t").wday == 7
+    return on and not helg
+end
 
--- local pasteTimer
--- hs.hotkey.bind(utils.hyper, "b",
--- 	function()
--- 		pasteTimer = hs.timer.secondsSinceEpoch()
--- 		hs.eventtap.keyStrokes(utils.makeString(10))
--- 	end,
--- 	function()
--- 		local diff = hs.timer.secondsSinceEpoch() - pasteTimer
--- 		if diff > 0.2 then
--- 			hs.eventtap.keyStrokes("@example.com")
--- 		end
--- 	end
--- )
+function always()
+	return true
+end
 
-hs.hotkey.bind(utils.hyper, "v",
-	function()
-		local contents = hs.pasteboard.getContents()
-		hs.pasteboard.setContents(environment.otherEmail)
-		hs.timer.doAfter(0.2, function()
-			hs.eventtap.keyStroke({"cmd"},"v")
-			hs.timer.doAfter(0.2, function()
-				hs.pasteboard.setContents(contents)
-			end)
-			hs.eventtap.keyStrokes("\t")
-		end)
+function utils.reloadConfig(files)
+    doReload = false
+    for _,file in pairs(files) do
+        if file:sub(-4) == ".lua" then
+            doReload = true
+        end
+    end
+    if doReload then
+        hs.reload()
+    end
+end
 
-	end
-)
+local layout = hs.keycodes.currentLayout()
+if (string.find(layout, "Swedish")) then
+    hs.eventtap.keyStroke({}, 'f3')
+    utils.reloadConfig({os.getenv("HOME") .. "/.hammerspoon/init.lua"})
+else
 
-local secret
-hs.hotkey.bind(utils.hyper, "b", function()
-	secret = hs.pasteboard.getContents()
-end)
+    xavier = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", utils.reloadConfig):start()
 
-hs.hotkey.bind(utils.hyper, "n",
-	function()
-		local contents = hs.pasteboard.getContents()
-		hs.pasteboard.setContents(secret)
-		hs.timer.doAfter(0.2, function()
-			hs.eventtap.keyStroke({"cmd"},"v")
-			hs.timer.doAfter(0.2, function()
-				hs.pasteboard.setContents(contents)
-			end)
-		end)
-	end
-)
+    -- Window position and sizing
+    hs.hotkey.bind(utils.hyper, "Left", utils.alignLeft)
+    hs.hotkey.bind(utils.hyper, "Right", utils.alignRight)
+    hs.hotkey.bind(utils.viper, "Up", utils.alignUp)
+    hs.hotkey.bind(utils.viper, "Down", utils.alignDown)
+    hs.hotkey.bind(utils.hyper, "M", utils.maximize)
+    hs.hotkey.bind(utils.hyper, "Up", utils.grow)
+    hs.hotkey.bind(utils.hyper, "Down", utils.shrink)
 
-apps = {
-	chrome = 		{key="A", bundleId = 'com.google.Chrome', confirm = true, lastConfirmed = 0},
-	chromeCanary = 	{key="X", bundleId = 'com.google.Chrome.canary'},
-	discord = 		{key="R", name="Discord"},
-	finder = 		{key="F", name="Finder"},
-	helium = 		{key="G", name="Helium"},
-	webstorm = 		{key="W", name="WebStorm"},
-	iTerm = 		{key="D", name="iTerm"},
-	slack = 		{key="Q", name="Slack"},
-	spotify = 		{key="E", name="Spotify"},
-	sublimeText = 	{key="S", name="Sublime Text"},
-	twitter = 		{key="Z", name="Twitter"},
-	zeplin = 		{key="C", name="Zeplin"},
-	keePassX = 		{key="P", name="KeePassX"},
-}
+    -- Spotify
+    hs.hotkey.bind(utils.hyper, "[", function()
+        hs.spotify.previous()
+    end)
 
-for key, val in pairs(apps) do  -- Table iteration.
-	local focusFn
+    hs.hotkey.bind(utils.hyper, "]", function()
+        hs.spotify.next()
+    end)
 
-	if val.bundleId then
-		focusFn = utils.focusAppByBundleId(val.bundleId)
-	else
-		focusFn = utils.focusApp(val.name)
-	end
+    hs.hotkey.bind(utils.hyper, "\\", function()
+        if (hs.spotify.isPlaying()) then
+            message = "◼"
+        else
+            message = "▶"
+        end
+        hs.spotify.playpause()
+        utils.showMessage(message)
+    end)
 
-	if (val.confirm) then
-		oldFocusFn = focusFn
-		focusFn = function()
-			local now = hs.timer.secondsSinceEpoch()
-			if (val.lastConfirmed + 1 > now) then
-				oldFocusFn()
-			end
-			val.lastConfirmed = now
-		end
-	end
 
-	if focusFn then
-		hs.hotkey.bind(utils.hyper, val.key, focusFn)
-	end
+    -- App switching
+    bindHotkeys({
+        { key = "2", askFirst = jobMode, name = "Chrome", bundleId = 'com.google.Chrome' },
+
+        { key = "Q", askFirst = always, name = "Slack"},
+        { key = "W", askFirst = always, bundleId = "com.microsoft.VSCode"},
+        { key = "E", name = "Spotify"},
+
+        -- { key = "A", name = "Left"},
+        { key = "S", name = "Sublime Text"},
+        { key = "D", name = "iTerm"},
+        { key = "F", name = "Helium"},
+
+        { key = "Z", name = "Finder"},
+        { key = "X", askFirst = vacationMode, name = "Chrome Canary", bundleId = 'com.google.Chrome.canary'},
+        -- { key = "C", name = "Google Calendar"},
+
+        { key = "C", name = "Discord"},
+        -- { key = "G", name = "Gmail"},
+
+        { key = "R", name = "Reminders"},
+        -- { key = "T", name = "FirefoxDeveloperEdition"},
+        -- { key = "P", name = "Postman"},
+        -- { key = "K", name = "KeePassX"},
+
+
+    })
+
+    hs.hotkey.bind({}, 'f13', function()
+        hs.eventtap.keyStroke({'alt'}, 'k', 5)
+        hs.eventtap.keyStroke({}, 'a', 5)
+    end)
+
+    hs.hotkey.bind({'shift'}, 'f13', function()
+        hs.eventtap.keyStroke({'alt'}, 'k', 5)
+        hs.eventtap.keyStroke({'shift'}, 'a', 5)
+    end)
+    ---
+    hs.hotkey.bind({}, 'f14', function()
+        hs.eventtap.keyStroke({'alt'}, 'u', 5)
+        hs.eventtap.keyStroke({}, 'a', 5)
+    end)
+
+    hs.hotkey.bind({'shift'}, 'f14', function()
+        hs.eventtap.keyStroke({'alt'}, 'u', 5)
+        hs.eventtap.keyStroke({'shift'}, 'a', 5)
+    end)
+    ---
+    hs.hotkey.bind({}, 'f15', function()
+        hs.eventtap.keyStroke({'alt'}, 'u', 5)
+        hs.eventtap.keyStroke({}, 'o', 5)
+    end)
+
+    hs.hotkey.bind({'shift'}, 'f15', function()
+        hs.eventtap.keyStroke({'alt'}, 'u', 5)
+        hs.eventtap.keyStroke({'shift'}, 'o', 5)
+    end)
+
+    -------------------
+    hs.hotkey.bind(utils.hyper, '[', function()
+        hs.eventtap.keyStroke({'alt'}, 'k', 5)
+        hs.eventtap.keyStroke({}, 'a', 5)
+    end)
+
+    hs.hotkey.bind(utils.viper, '[', function()
+        hs.eventtap.keyStroke({'alt'}, 'k', 5)
+        hs.eventtap.keyStroke({'shift'}, 'a', 5)
+    end)
+
+    hs.hotkey.bind(utils.hyper, "'", function()
+        hs.eventtap.keyStroke({'alt'}, 'u', 5)
+        hs.eventtap.keyStroke({}, 'a', 5)
+    end)
+
+    hs.hotkey.bind(utils.viper, "'", function()
+        hs.eventtap.keyStroke({'alt'}, 'u', 5)
+        hs.eventtap.keyStroke({'shift'}, 'a', 5)
+    end)
+
+
+    hs.hotkey.bind(utils.hyper, ';', function()
+        hs.eventtap.keyStroke({'alt'}, 'u', 5)
+        hs.eventtap.keyStroke({}, 'o', 5)
+    end)
+
+
+    hs.hotkey.bind(utils.viper, ';', function()
+        hs.eventtap.keyStroke({'alt'}, 'u', 5)
+        hs.eventtap.keyStroke({'shift'}, 'o', 5)
+    end)
+
+    hs.hotkey.bind(utils.hyper, 'space', function()
+        local win = hs.window.frontmostWindow()
+        win:centerOnScreen();
+    end)
+
+    --  hs.hotkey.bind(utils.hyper, '0', function()
+    --     local task = hs.task.new("cd /Volumes/code/unomaly/unomalyweb && yarn run build:dll", nil)
+    --     task:start();
+    --     -- print(hs.execute("cd /Volumes/code/unomaly/unomalyweb && yarn run build:dll", true))
+    -- end)
+
+    local function directoryLaunchKeyRemap(mods, key, dir)
+        local mods = mods or {}
+        hs.hotkey.bind(mods, key, function()
+            local shell_command = "open " .. dir
+            print(shell_command)
+            hs.execute(shell_command)
+        end)
+    end
+
+    directoryLaunchKeyRemap(utils.hyper, "A", "/Users/johnste/Dropbox/journal.md")
+
+    hs.window.animationDuration = 0
+
+    hs.notify.new({
+        title="Hammerspoon",
+        informativeText="Config loaded"
+    }):send()
 
 end
 
-hs.notify.new({
-  	title="Hammerspoon",
-  	informativeText="Config loaded"
-  }):send()
-hs.window.animationDuration = 0
+
+
+-- hs.timer.doEvery(1, checkLanguage)
+
+

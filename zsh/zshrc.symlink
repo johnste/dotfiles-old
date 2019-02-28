@@ -40,8 +40,20 @@ done
 
 unset config_files
 
-eval "$(rbenv init -)"
-
-eval "$(thefuck --alias)"
-
 ulimit -n 10240
+
+export PATH="$PATH:`yarn global bin`"
+
+
+ssh-agent
+
+ADDED_KEYS=$(ssh-add -l)
+
+if  [[ "$ADDED_KEYS" == *"id_rsa"* ]]; then
+    # echo "SSH key already added"
+else
+    ssh-add
+fi
+
+
+export GOPATH=/Volumes/code/go

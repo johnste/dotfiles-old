@@ -18,3 +18,6 @@ alias gcb='git copy-branch-name'
 alias gb='git branch'
 alias gs='git status -sb' # upgrade your git if -sb breaks for you. it's fun.
 alias gdbranch='git branch --merged master | grep -v "\* master" | xargs -n 1 git branch -d'
+alias grecent="git for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(refname:short)'"
+alias gwat="git rev-parse --abbrev-ref HEAD | toilet -f future | lolcat -a"
+
